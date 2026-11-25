@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load core_extras %}
+
+{% block title %}Результаты теста{% endblock %}
+
+{% block content %}
+<h1>Результаты теста: {{ attempt.topic.title }}</h1>
+<p class="lead">
+  Правильно отвечено: <strong>{{ attempt.score }}</strong> из {{ attempt.total }}
+</p>
+{% if attempt.total > 0 and attempt.score == attempt.total %}
+  <p class="text-success">Отлично, тест пройден без ошибок!</p>
+{% endif %}
+
+{% if attempt.total > 0 and attempt.score < attempt.total %}
+  <h2>Где ошиблись</h2>
+{% endif %}
+
+{% for r in attempt.results %}
+    {% if not r.is_correct %}
+      <div class="card mb-3 border-danger">
+        <div class="card-body">
+          <p class="card-text mb-1"><strong>Вопрос:</strong> {{ r.question }}</p>
+          {% if r.user_answer is not None %}
+            <p class="card-text mb-1"><strong>Ваш ответ:</strong>
+              {{ r.options|get_item:r.user_answer }}</p>
+          {% endif %}
+          <p class="card-text"><strong>Правильный ответ:</strong>
+            {{ r.options|get_item:r.correct_answer }}</p>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+<a class="btn btn-outline-primary" href="{% url 'core:quiz' attempt.topic.pk %}">
+  Пройти тест ещё раз
+</a>
+<a class="btn btn-outline-primary" href="{% url 'core:my_results' %}">
+  Мои результаты
+</a>
+{% endblock %}

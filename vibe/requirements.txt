@@ -1,0 +1,4 @@
+# Exam Prep Lab — Django project (see vibe/)
+
+Django==5.2.19
+psycopg2-binary

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Подготовка к экзамену — Темы{% endblock %}
+
+{% block content %}
+<h1>Выберите тему для прохождения теста</h1>
+{% if topics %}
+  {% for topic in topics %}
+    <div class="card mb-3">
+      <div class="card-body d-flex justify-content-between align-items-center">
+        <div>
+          <h5 class="card-title mb-1">{{ topic.title }}</h5>
+          {% if topic.description %}
+            <p class="card-text mb-0 small text-muted">{{ topic.description }}</p>
+          {% endif %}
+        </div>
+        <a class="btn btn-primary" href="{% url 'core:quiz' topic.pk %}">
+          Пройти тест (10 вопросов)
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>Темы пока не добавлены. Они добавляются через админку Django.</p>
+{% endif %}
+{% endblock %}

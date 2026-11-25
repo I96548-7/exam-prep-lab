@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Мои результаты{% endblock %}
+
+{% block content %}
+<h1>Мои результаты</h1>
+{% if attempts %}
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Дата попытки</th>
+        <th>Тема</th>
+        <th>Правильно</th>
+        <th>Всего вопросов</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in attempts %}
+        <tr>
+          <td>{{ a.created_at|date:"d.m.Y H:i" }}</td>
+          <td>{{ a.topic.title }}</td>
+          <td>{{ a.score }}</td>
+          <td>{{ a.total }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>Попыток пока нет. Пройдите тест со страницы «Темы».</p>
+{% endif %}
+<a class="btn btn-outline-primary" href="{% url 'core:topics' %}">К темам</a>
+{% endblock %}
